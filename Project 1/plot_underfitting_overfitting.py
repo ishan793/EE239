@@ -32,14 +32,15 @@ import pickle
 from sklearn.metrics import mean_squared_error
 np.random.seed(0)
 
-data = pickle.load( open( "housing_data.pickle", "rb" ) )
+#data = pickle.load( open( "housing_data.pickle", "rb" ) )
+data=pickle.load(open('network.pickle','rb'))
 X=np.array(data['x'],dtype='float')
-X=np.reshape(X,(506,13))
-n_samples=X.shape[0]
 y=np.array(data['y'],dtype='float')
+print X.shape
+n_samples=X.shape[0]
 y=np.reshape(y,(n_samples,1))
-degrees = [1,2,3,4]
-
+print y.shape
+degrees = [2,3,4]
 avg_score=[]
 fixed_score=[]
 
@@ -62,7 +63,8 @@ for i in range(len(degrees)):
     # Evaluate the models using crossvalidation
     scores = cross_validation.cross_val_score(pipeline,
         X, y, scoring="mean_squared_error", cv=10)
-    avg_score.append(np.average(scores))
+    scores=np.average((abs(scores)**0.5))
+    avg_score.append(scores)
    
     #plt.plot(X_test, true_fun(X_test), label="True function")
     #plt.scatter(X, y, label="Samples")
@@ -73,9 +75,11 @@ for i in range(len(degrees)):
     #plt.legend(loc="best")
     #plt.title("Degree {}\nMSE = {:.2e}(+/- {:.2e})".format(
         #degrees[i], -scores.mean(), scores.std()))
-#plt.show()
-
-plt.figure(figsize=(14,5))
+#plt.show()'''
+print avg_score
+plt.scatter(degrees,avg_score)
+plt.show()
+'''plt.figure(figsize=(14,5))
 for i in range(len(degrees)):
     ax=plt.subplot(1,len(degrees),i+1)
     plt.setp(ax,xticks=(),yticks=())
@@ -86,10 +90,10 @@ for i in range(len(degrees)):
     regr =LinearRegression()
     regr.fit(X_train_trans,y_train)
     y_pred = regr.predict(X_test_trans)    
-    fixed_score.append(mean_squared_error(y_test,y_pred))
+    fixed_score.append((mean_squared_error(y_test,y_pred)**0.5))
     #plt.plot(range(len(y_test)),(y_test-pipeline.predict(X_test)),range(len(y_test)),[0]*len(y_test))
+'''
 
-print avg_score
-print fixed_score
+'''print fixed_score
 plt.scatter(degrees,fixed_score)
-plt.show()
+plt.show()'''
