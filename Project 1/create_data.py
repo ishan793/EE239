@@ -26,7 +26,13 @@ def get_vec(d):
 	d[1] = weeks[d[1]]
 	d[3] = (d[3][10:])
 	d[4] = (d[4][5:])
-	res = [int(i) for i in d]
+	
+	for i in d:
+		try:
+			res.append(int(i))
+		except ValueError:
+			res.append(float(i))
+	
 	return res
 
 def get_num(x):
@@ -37,7 +43,7 @@ def get_num(x):
 
 
 # function to convert a csv file to pickle
-def convert_network(filename,final_filename):
+def convert_network(filename,final_filename, var_flag = 0):
 	'''
 	Filename : input filename of csv filename
 	final_filename : o/p filename of .pickle file
@@ -48,12 +54,14 @@ def convert_network(filename,final_filename):
 		count = 0
 		for line in f:
 			if count != 0:
-				res['x'].append(line[:-2]+[line[-1]])
-				res['y'].append(line[-2])
+				if var_flag == 0:
+					res['x'].append(line[:-2]+[line[-1]])
+					res['y'].append(float(line[-2]))
+				else:
+					res['x'].append(line[:-1])
+					res['y'].append(float(line[-1]))
 			count += 1
 
-	
-	
 	res['x'] = get_num(res['x'])
 	m = len(res['x'][0])-1
 	enc = OneHotEncoder(categorical_features = range(m),sparse = False)
@@ -63,5 +71,6 @@ def convert_network(filename,final_filename):
 	with open(final_filename,'wb') as f:
 		pickle.dump(res,f)
 
-convert_network('network_backup_dataset.csv','network.pickle')
+convert_network('network_backup_dataset.csv','network_data_size.pickle')
+convert_network('network_backup_dataset.csv','network_backup_time.pickle', var_flag = 1)
 convert_pickle('housing_data.csv','housing_data.pickle')
