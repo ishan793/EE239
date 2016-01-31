@@ -18,9 +18,7 @@ def get_model(ip_dim, n_nodes = 32, _lr = 0.001):
 	model = Sequential()
 	model.add(Dense(output_dim = n_nodes, input_dim = ip_dim))
 	model.add(Activation('tanh'))
-	# model.dropout()
-	# model.add(Dense(output_dim = 16, input_dim = ip_dim))
-	# model.add(Activation('tanh'))
+
 	model.add(Dense(output_dim = 1))
 	opt = Adam(lr = _lr)
 	model.compile(loss='mean_squared_error', optimizer = opt)
@@ -148,12 +146,27 @@ def nodes_plot(x,y):
 
 with open('../data/network_data_size.pickle','rb') as f:
 	data = pickle.load(f)
-
+print "Loaded the data size data set"
 x,y = data['x'],data['y']
 x = pp.normalize(x)
 
-# lr_plot(x,y,100)
-# nodes_plot(x,y)
+print "Generating plot for learning rate"
+lr_plot(x,y,100)
+print "Generating plot for number of nodes"
+nodes_plot(x,y)
+
+with open('../data/network_backup_time.pickle','rb') as f:
+	data = pickle.load(f)
+
+print "Loaded backup time dataset"
+x,y = data['x'],data['y']
+x = pp.normalize(x)
+
+
+print "Generating plot for learning rate"
+lr_plot(x,y,100)
+print "Generating plot for number of nodes"
+nodes_plot(x,y)
 
 res = cross_validate(x,y)
 print float(sum(res)/len(res))
