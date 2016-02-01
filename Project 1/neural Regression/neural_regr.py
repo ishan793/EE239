@@ -12,14 +12,15 @@ def get_model(ip_dim, n_nodes = 32, _lr = 0.001):
 	This function returns the model of a regression model using 
 	neural network. It consists of single hidden layer with 
 	32 nodes. The activation function for
-	each node is tanh. As we are working with regression, the loss function
-	used is mean squared error and the optimizer used is Adam.
+	each node is tanh. As we are working with regression, final layer has linear activation
+	function and the loss function used is mean squared error and the optimizer used is Adam.
 	'''	
 	model = Sequential()
 	model.add(Dense(output_dim = n_nodes, input_dim = ip_dim))
 	model.add(Activation('tanh'))
 
 	model.add(Dense(output_dim = 1))
+	model.add(Activation('linear'))
 	opt = Adam(lr = _lr)
 	model.compile(loss='mean_squared_error', optimizer = opt)
 
@@ -67,13 +68,13 @@ def cross_validate(x,y,n_cv = 10, mf = 100, lr = 0.01, nodes = 32):
 		
 	return score
 
-def lr_plot(x,y,mf):
+def lr_plot(x,y,file_name):
 	'''
 	Function to plot variation of RMSE with varying learning rate
 	Range of learning rate considered : 10^-6 - 1
 	'''
 	n_train = int(0.9*len(x))
-
+	mf = 100
 	for i in range(len(y)):
 		y[i] = float(y[i])*mf
 
@@ -102,10 +103,11 @@ def lr_plot(x,y,mf):
 	plt.xlabel('Learning rate')
 	plt.ylabel('RMSE')
 	plt.title('RMSE vs Learning rate')
-	plt.show()
+	# plt.show()
+	plt.savefig(file_name)
 		
 
-def nodes_plot(x,y):
+def nodes_plot(x,y,file_name):
 	'''
 	Function to plot variation of RMSE with varying number of nodes
 	in the middle layer
@@ -125,7 +127,6 @@ def nodes_plot(x,y):
 	print "Data created"
 	print "Training size:",len(x_train),"testing size:",len(x_test)
 	for i in range(10):
-	
 		mod = get_model(len(x[0]), n_nodes = n)
 		mod.fit(x_train, y_train, nb_epoch=100, batch_size=8, verbose = 0)
 		# evaluate the model
@@ -141,20 +142,22 @@ def nodes_plot(x,y):
 	plt.xlabel('Number of nodes')
 	plt.ylabel('RMSE')
 	plt.title('RMSE vs Number of nodes')
-	plt.show()	
+	plt.savefig(file_name)
+	# plt.show()	
 
-
+# plot the curves for data size data set
 with open('../data/network_data_size.pickle','rb') as f:
 	data = pickle.load(f)
 print "Loaded the data size data set"
 x,y = data['x'],data['y']
 x = pp.normalize(x)
 
-print "Generating plot for learning rate"
-lr_plot(x,y,100)
+# print "Generating plot for learning rate"
+# lr_plot(x,y,'lr_rmse_datasize.png')
 print "Generating plot for number of nodes"
-nodes_plot(x,y)
+nodes_plot(x,y,'nodes_rmse_datasize.png')
 
+# plot the curves for data size data set
 with open('../data/network_backup_time.pickle','rb') as f:
 	data = pickle.load(f)
 
@@ -162,11 +165,10 @@ print "Loaded backup time dataset"
 x,y = data['x'],data['y']
 x = pp.normalize(x)
 
-
-print "Generating plot for learning rate"
-lr_plot(x,y,100)
+# print "Generating plot for learning rate"
+# lr_plot(x,y,'lr_rmse_datatime.png')
 print "Generating plot for number of nodes"
-nodes_plot(x,y)
+nodes_plot(x,y,'nodes_rmse_datatime.png')
 
 res = cross_validate(x,y)
 print float(sum(res)/len(res))
