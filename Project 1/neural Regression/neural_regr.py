@@ -26,7 +26,7 @@ def get_model(ip_dim, n_nodes = 32, _lr = 0.001):
 
 	return model
 
-def cross_validate(x,y,n_cv = 10, mf = 100, lr = 0.01, nodes = 32):
+def cross_validate(x,y,n_cv = 10, mf = 100, lr = 0.01):
 	'''
 	This function used for cross validation. The number of sets is given by
 	the user. Based on parameter optimization for this data set, the learning 
