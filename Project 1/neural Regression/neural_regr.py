@@ -109,7 +109,7 @@ def lr_plot(x,y,file_name):
 	plt.savefig(file_name)
 		
 
-def nodes_plot(x,y,file_name):
+def nodes_plot(x,y,file_name, flag = 1):
 	'''
 	Function to plot variation of RMSE with varying number of nodes
 	in the middle layer
@@ -123,6 +123,8 @@ def nodes_plot(x,y,file_name):
 	y_train, y_test = y[:n_train], y[n_train:]
 
 	n = 10
+	if flag != 1:
+		n = 2
 	n_ = []
 	res = []
 
@@ -137,7 +139,10 @@ def nodes_plot(x,y,file_name):
 		print "current n_nodes is:",n,"and error is:",rmse
 		n_.append(n)
 		res.append(rmse)
-		n += 10
+		if flag == 1:
+			n += 10
+		else:
+			n += 1
 
 	plt.figure()
 	plt.plot(n_,res)
@@ -150,9 +155,17 @@ def nodes_plot(x,y,file_name):
 def parameter_plot(p_type, data):
 	if data == 'size':
 		f_name = '../data/network_data_size.pickle'
+		s_name = 'size'
+		f = 1
 	elif data == 'time':
 		f_name = '../data/network_backup_time.pickle'
-	
+		s_name = 'time'
+		f = 1
+	elif data == 'boston':
+		s_name = 'housing'
+		f_name = '../data/housing_data.pickle'
+		f = 2
+
 	with open(f_name,'rb') as f:
 		data = pickle.load(f)
 	
@@ -161,13 +174,16 @@ def parameter_plot(p_type, data):
 	
 	if p_type == 'lr':
 		print "Generating plot for learning rate"
-		lr_plot(x,y,'lr_rmse_datasize.png')
+		s_name += 'lr_rmse.png'
+		lr_plot(x,y,s_name)
 	
-	elif ptype == 'nodes':
+	elif p_type == 'nodes':
 		print "Generating plot for number of nodes"
-		nodes_plot(x,y,'nodes_rmse_datasize.png')
+		s_name += 'nodes_rmse.png'
+		nodes_plot(x,y,s_name,flag = f)
 
 def get_res(data):
+	l = 0.01
 	if data == 'size':
 		print "Running cross validation for Data size"
 		f_name = '../data/network_data_size.pickle'
@@ -176,6 +192,11 @@ def get_res(data):
 		print "Running cross validation for Backup time"
 		f_name = '../data/network_backup_time.pickle'
 		n_nodes = 60
+	elif data == 'boston':
+		print "Running cross validation for Boston dataset"
+		f_name = '../data/housing_data.pickle'
+		n_nodes = 11
+		l = 0.1
 
 	with open(f_name,'rb') as f:
 		data = pickle.load(f)
@@ -183,11 +204,14 @@ def get_res(data):
 	x,y = data['x'],data['y']
 	x = pp.normalize(x)
 	
-	res = cross_validate(x,y,nodes = n_nodes)
+	res = cross_validate(x,y,lr = l,nodes = n_nodes)
 	print float(sum(res)/len(res))
+
+# parameter_plot(p_type = 'nodes',data = 'boston')
+# parameter_plot(p_type = 'lr',data = 'boston')
 
 get_res('time')	
 get_res('size')
-
+get_res('boston')
 
 
