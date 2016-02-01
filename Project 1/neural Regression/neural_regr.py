@@ -41,6 +41,8 @@ def cross_validate(x,y,n_cv = 10, mf = 100, lr = 0.01, nodes = 32):
 
 	score = []
 	# create testing and training sets.
+	print "Running",n_cv,"fold cross validation, train size",(n-frac),"and testing size",frac
+	print "Number of nodes:",nodes,"and learning rate:",lr
 	for i in range(n_cv):
 		# for this iteration, define the start and end points of test set
 		# based on start and end of test, create training set
@@ -145,30 +147,47 @@ def nodes_plot(x,y,file_name):
 	plt.savefig(file_name)
 	# plt.show()	
 
-# plot the curves for data size data set
-with open('../data/network_data_size.pickle','rb') as f:
-	data = pickle.load(f)
-print "Loaded the data size data set"
-x,y = data['x'],data['y']
-x = pp.normalize(x)
+def parameter_plot(p_type, data):
+	if data == 'size':
+		f_name = '../data/network_data_size.pickle'
+	elif data == 'time':
+		f_name = '../data/network_backup_time.pickle'
+	
+	with open(f_name,'rb') as f:
+		data = pickle.load(f)
+	
+	x,y = data['x'],data['y']
+	x = pp.normalize(x)
+	
+	if p_type == 'lr':
+		print "Generating plot for learning rate"
+		lr_plot(x,y,'lr_rmse_datasize.png')
+	
+	elif ptype == 'nodes':
+		print "Generating plot for number of nodes"
+		nodes_plot(x,y,'nodes_rmse_datasize.png')
 
-# print "Generating plot for learning rate"
-# lr_plot(x,y,'lr_rmse_datasize.png')
-print "Generating plot for number of nodes"
-nodes_plot(x,y,'nodes_rmse_datasize.png')
+def get_res(data):
+	if data == 'size':
+		print "Running cross validation for Data size"
+		f_name = '../data/network_data_size.pickle'
+		n_nodes = 32
+	elif data == 'time':
+		print "Running cross validation for Backup time"
+		f_name = '../data/network_backup_time.pickle'
+		n_nodes = 60
 
-# plot the curves for data size data set
-with open('../data/network_backup_time.pickle','rb') as f:
-	data = pickle.load(f)
+	with open(f_name,'rb') as f:
+		data = pickle.load(f)
+	
+	x,y = data['x'],data['y']
+	x = pp.normalize(x)
+	
+	res = cross_validate(x,y,nodes = n_nodes)
+	print float(sum(res)/len(res))
 
-print "Loaded backup time dataset"
-x,y = data['x'],data['y']
-x = pp.normalize(x)
+get_res('time')	
+get_res('size')
 
-# print "Generating plot for learning rate"
-# lr_plot(x,y,'lr_rmse_datatime.png')
-print "Generating plot for number of nodes"
-nodes_plot(x,y,'nodes_rmse_datatime.png')
 
-res = cross_validate(x,y)
-print float(sum(res)/len(res))
+
