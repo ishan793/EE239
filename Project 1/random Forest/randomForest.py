@@ -39,15 +39,14 @@ mydata_normalized = preprocessing.normalize(mydata, norm='l2')
 estm =[20,60,100,140,180,220]
 mse = [];
     
-for j in range(len(estm)): 
+#for j in range(len(estm)): 
 
-    estimator = RandomForestRegressor(n_estimators=estm[j],max_depth=12) #max features = default
-
-    scores = cross_validation.cross_val_score(estimator, mydata_normalized, mylabel, cv=10, scoring='mean_squared_error')
-
-    mse.append((np.mean(scores)*-1)**(0.5));
-
+estimator = RandomForestRegressor(n_estimators=140,max_depth=12) #max features = default
+estimator.fit(mydata_normalized,mylabel);
+out = estimator.predict(mydata_normalized);
+#scores = cross_validation.cross_val_score(estimator, mydata_normalized, mylabel, cv=10, scoring='mean_squared_error')
+#mse.append((np.mean(scores)*-1)**(0.5));
 #plt.ylim([0.0090,1])
-plt.plot(estm, mse)
-plt.xlabel('Number of estimaters')
-plt.ylabel('root mean square error')
+plt.scatter(out,mylabel-out)
+plt.ylabel('Residue')
+plt.xlabel('Fitted Values')
