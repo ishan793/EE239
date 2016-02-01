@@ -103,7 +103,7 @@ for i in range(5):
                 final_res[i][file_id][k]['y'].append(data_trans)
 
 colors = itertools.cycle(["r", "b", "g"])
-for i in range(5):
+for i in range(1):
         for k in range(5):
             plt.figure(k)
             for j in range(30):
