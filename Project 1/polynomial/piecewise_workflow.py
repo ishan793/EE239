@@ -95,7 +95,7 @@ def test_data(split_test, trained_models):
 	print (a/n_samples)**0.5	
 
 def load1():
- 	data=pickle.load(open('network.pickle'))
+ 	data=pickle.load(open('../data/network_data_size.pickle'))
  	x=np.array(data['x'],dtype='float')
 	y=np.array(data['y'],dtype='float')
 	n_samples=x.shape[0]
@@ -111,62 +111,4 @@ load1()
 
 
 
-# #Workflow 2
-# data_wf2=pickle.load(open('network_wf2.pickle','rb'))
-# X_wf2=np.array(data_wf2['x'],dtype='float')
-# y_wf2=np.array(data_wf2['y'],dtype='float')
-# n_samples_wf2=X_wf2.shape[0]
-# y_wf2=np.reshape(y_wf2,(n_samples_wf2,1))
 
-# reg_wf2=linear_model.LinearRegression(fit_intercept=True,normalize=True)
-# # lreg_wf2=reg_wf2.fit(X_wf2,y_wf2)
-# #labels_wf2=reg_wf2.predict()
-# scores_wf2=cross_validation.cross_val_score(reg_wf2,
-#         X_wf2, y_wf2, scoring="mean_squared_error", cv=10)
-# avg_wf2=(abs(scores_wf2)**0.5).mean()
-
-# #Workflow3
-# data_wf3=pickle.load(open('network_wf3.pickle','rb'))
-# X_wf3=np.array(data_wf3['x'],dtype='float')
-# y_wf3=np.array(data_wf3['y'],dtype='float')
-# n_samples_wf3=X_wf3.shape[0]
-# y_wf3=np.reshape(y_wf3,(n_samples_wf3,1))
-
-# reg_wf3=linear_model.LinearRegression(fit_intercept=True,normalize=True)
-# # lreg_wf3=reg_wf3.fit(X_wf3,y_wf3)
-# #labels_wf3=reg_wf3.predict()
-# scores_wf3=cross_validation.cross_val_score(reg_wf3,
-#         X_wf3, y_wf3, scoring="mean_squared_error", cv=10)
-# avg_wf3=(abs(scores_wf3)**0.5).mean()
-
-# #Workflow4
-# data_wf4=pickle.load(open('network_wf4.pickle','rb'))
-# X_wf4=np.array(data_wf4['x'],dtype='float')
-# y_wf4=np.array(data_wf4['y'],dtype='float')
-# n_samples_wf4=X_wf4.shape[0]
-# y_wf4=np.reshape(y_wf4,(n_samples_wf4,1))
-
-# reg_wf4=linear_model.LinearRegression(fit_intercept=True,normalize=True)
-# # lreg_wf4=reg_wf4.fit(X_wf4,y_wf4)
-# #labels_wf4=reg_wf4.predict()
-# scores_wf4=cross_validation.cross_val_score(reg_wf4,
-#         X_wf4, y_wf4, scoring="mean_squared_error", cv=10)
-# avg_wf4=(abs(scores_wf4)**0.5).mean()
-
-
-# #Workflow5
-# data_wf5=pickle.load(open('network_wf5.pickle','rb'))
-# X_wf5=np.array(data_wf5['x'],dtype='float')
-# y_wf5=np.array(data_wf5['y'],dtype='float')
-# n_samples_wf5=X_wf5.shape[0]
-# y_wf5=np.reshape(y_wf5,(n_samples_wf5,1))
-
-# reg_wf5=linear_model.LinearRegression(fit_intercept=True,normalize=True)
-# lreg_wf5=reg_wf5.fit(X_wf5,y_wf5)
-# labels_wf5=reg_wf5.predict(X_wf5)
-# print ((labels_wf5-y_wf5)**2).mean()
-# scores_wf5=cross_validation.cross_val_score(reg_wf5,
-#         X_wf5, y_wf5, scoring="mean_squared_error", cv=10)
-# avg_wf5=(abs(scores_wf5)**0.5).mean()
-# avg_mse=(avg_wf5+avg_wf4+avg_wf3+avg_wf2+avg_wf1)/5
-# print avg_mse
