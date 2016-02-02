@@ -1,4 +1,4 @@
-UID Tushar 004589213
+
 1. Visualization of data
 
 Run PlotData.py
@@ -6,40 +6,40 @@ Run PlotData.py
 
 2.
 a) NETWORK BACKUP DATASET
-Run pj1_1_NBD.py
+Run linear/pj1_1_NBD.py
 ->Generates actual labels(y),fitted values(yp) and residuals(y-yp). 
 Also includes the plot for residual(y-yp) versus fitted values(yp)
 
-Run pj1_2_NBD.py
+Run linear/pj1_2_NBD.py
 -> Used to generate Plot for Fitted(yp) and Actual value(y) scatter plot over time.
 
 b) Random Forest
-Run randomForest.py
+Run random Forest/randomForest.py
 -> Used to generate the residue vs the fitted value plot for Random Forest.Also does hyperparameter tuning for the dataset.
 
 Run PlotData2.py 
 ->generate the plots for fitted and actual label plot over time. It generates 25 plots (5 workflows*5 time divisions(0-20,20-40,40-60,60-80,80-100) days). 
 
 (c) Neural netwrok regression:
-Run file neural_regr.py to get the plots are RMSE values for all the data sets
+Run file neural Regression/neural_regr.py to get the plots are RMSE values for all the data sets
 
 3.
-Run piecewise_workflow.py for piecewise linear regression RMSE
+Run polynomial/piecewise_workflow.py for piecewise linear regression RMSE
 
 Network Backup Dataset(Polynomial Regression)
-Run network_cross_valid.py for 10 Fold Cross Validation results
-Run network_fixed.py  for RMSE results on fixed testing and training dataset
+Run polynomial/network_cross_valid.py for 10 Fold Cross Validation results
+Run polynomial/network_fixed.py  for RMSE results on fixed testing and training dataset
 
 4.
 BOSTON HOUSING DATASET
 Linear Regression model
-Run pj2_BHD.py
+Run linear/pj2_BHD.py
 -> THis includes plot for residual(y-yp) versus fitted values(yp)
 
 Housing Dataset(Polynomial Regression)
-Run housing_cross_valid.py for 10 Fold Cross Validation results
-Run housing_fixed.py for RMSE results on fixed testing and training dataset
+Run polynomial/housing_cross_valid.py for 10 Fold Cross Validation results
+Run polynomial/housing_fixed.py for RMSE results on fixed testing and training dataset
 
 5.Ridge and Lasso
 
-Run p2_a3.py to get plots and rmse values.
+Run ridge_Lasso/p2_a3.py to get plots and rmse values.

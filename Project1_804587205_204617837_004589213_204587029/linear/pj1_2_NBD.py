@@ -55,7 +55,7 @@ def find_amount(x):
 #------------------------------------------------------------------------------
 # read the csv file and scale the label for float conversion
 res = {'x':[],'y':[],'yp':[]}
-with open('G:\\Git\\EE239\\Project 1\\network_backup_dataset.csv','rb') as csvfile:
+with open('../data/network_backup_dataset.csv','rb') as csvfile:
 		f = csv.reader(csvfile)
 		count = 0
 		for line in f:
