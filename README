@@ -1,5 +1,6 @@
 UID Tushar 004589213
 
+
 2.
 a) NETWORK BACKUP DATASET
 Run pj1_1_NBD.py
@@ -8,6 +9,9 @@ Also includes the plot for residual(y-yp) versus fitted values(yp)
 
 Run pj1_2_NBD.py
 -> Used to generate Plot for Fitted(yp) and Actual value(y) scatter plot over time
+
+(c) Neural netwrok regression:
+Run file neural_regr.py to get the plots are RMSE values for all the data sets
 
 3.
 Run piecewise_workflow.py for piecewise linear regression RMSE
@@ -25,3 +29,7 @@ Run pj2_BHD.py
 Housing Dataset(Polynomial Regression)
 Run housing_cross_valid.py for 10 Fold Cross Validation results
 Run housing_fixed.py for RMSE results on fixed testing and training dataset
+
+Ridge and Lasso
+
+Run p2_a3.py to get plots and rmse values.

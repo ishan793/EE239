@@ -179,7 +179,7 @@ def parameter_plot(p_type, data):
 	
 	elif p_type == 'nodes':
 		print "Generating plot for number of nodes"
-		s_name += 'nodes_rmse.png'
+		s_name += '_nodes_rmse.png'
 		nodes_plot(x,y,s_name,flag = f)
 
 def get_res(data):
@@ -207,8 +207,14 @@ def get_res(data):
 	res = cross_validate(x,y,lr = l,nodes = n_nodes)
 	print float(sum(res)/len(res))
 
-# parameter_plot(p_type = 'nodes',data = 'boston')
-# parameter_plot(p_type = 'lr',data = 'boston')
+parameter_plot(p_type = 'nodes',data = 'size')
+parameter_plot(p_type = 'lr',data = 'size')
+
+parameter_plot(p_type = 'nodes',data = 'time')
+parameter_plot(p_type = 'lr',data = 'time')
+
+parameter_plot(p_type = 'nodes',data = 'boston')
+parameter_plot(p_type = 'lr',data = 'boston')
 
 get_res('time')	
 get_res('size')
