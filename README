@@ -1,5 +1,8 @@
 UID Tushar 004589213
+1. Visualization of data
 
+Run PlotData.py
+->generates the plots for actual label over time. It generates 25 plots (5 workflows*5 time divisions(0-20,20-40,40-60,60-80,80-100) days).  
 
 2.
 a) NETWORK BACKUP DATASET
@@ -8,7 +11,14 @@ Run pj1_1_NBD.py
 Also includes the plot for residual(y-yp) versus fitted values(yp)
 
 Run pj1_2_NBD.py
--> Used to generate Plot for Fitted(yp) and Actual value(y) scatter plot over time
+-> Used to generate Plot for Fitted(yp) and Actual value(y) scatter plot over time.
+
+b) Random Forest
+Run randomForest.py
+-> Used to generate the residue vs the fitted value plot for Random Forest.Also does hyperparameter tuning for the dataset.
+
+Run PlotData2.py 
+->generate the plots for fitted and actual label plot over time. It generates 25 plots (5 workflows*5 time divisions(0-20,20-40,40-60,60-80,80-100) days). 
 
 (c) Neural netwrok regression:
 Run file neural_regr.py to get the plots are RMSE values for all the data sets

@@ -5,7 +5,7 @@ Created on Sat Jan 23 13:03:42 2016
 @author: shubham
 """
 import cPickle as pickle
-data = pickle.load(open("housing_data.pickle","rb"))
+data = pickle.load(open("../data/housing_data.pickle","rb"))
 from sklearn.ensemble import RandomForestRegressor
 from sklearn import cross_validation
 import matplotlib.pyplot as plt
@@ -18,20 +18,20 @@ mydata_normalized = preprocessing.normalize(mydata, norm='l2')
 #------------------------------------------------------------------------------
 
 #code for fine-tuning tree depth 
-#depth =[4,5,6,7,8,9,10,11,12,13,14]
-#mse = [];
-#    
-#for i in range(len(depth)): 
-#
-#    estimator = RandomForestRegressor(n_estimators=20,max_depth=depth[i]) #max features = default
-#    
-#    scores = cross_validation.cross_val_score(estimator, mydata_normalized, mylabel, cv=10, scoring='mean_squared_error')
-#
-#    mse.append((np.mean(scores)*-1)**(0.5));
-#
-#plt.plot(depth, mse, 'ro')
-#plt.xlabel('depth')
-#plt.ylabel('root mean square error')
+depth =[4,5,6,7,8,9,10,11,12,13,14]
+mse = [];
+    
+for i in range(len(depth)): 
+
+    estimator = RandomForestRegressor(n_estimators=20,max_depth=depth[i]) #max features = default
+    
+    scores = cross_validation.cross_val_score(estimator, mydata_normalized, mylabel, cv=10, scoring='mean_squared_error')
+
+    mse.append((np.mean(scores)*-1)**(0.5));
+
+plt.plot(depth, mse, 'ro')
+plt.xlabel('depth')
+plt.ylabel('root mean square error')
 
 #------------------------------------------------------------------------------
 
@@ -44,9 +44,9 @@ mse = [];
 estimator = RandomForestRegressor(n_estimators=140,max_depth=12) #max features = default
 estimator.fit(mydata_normalized,mylabel);
 out = estimator.predict(mydata_normalized);
-#scores = cross_validation.cross_val_score(estimator, mydata_normalized, mylabel, cv=10, scoring='mean_squared_error')
-#mse.append((np.mean(scores)*-1)**(0.5));
-#plt.ylim([0.0090,1])
+scores = cross_validation.cross_val_score(estimator, mydata_normalized, mylabel, cv=10, scoring='mean_squared_error')
+mse.append((np.mean(scores)*-1)**(0.5));
+plt.ylim([0.0090,1])
 plt.scatter(out,mylabel-out)
 plt.ylabel('Residue')
 plt.xlabel('Fitted Values')
