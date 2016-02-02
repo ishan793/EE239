@@ -30,6 +30,6 @@ Housing Dataset(Polynomial Regression)
 Run housing_cross_valid.py for 10 Fold Cross Validation results
 Run housing_fixed.py for RMSE results on fixed testing and training dataset
 
-Ridge and Lasso
+5.Ridge and Lasso
 
 Run p2_a3.py to get plots and rmse values.
