@@ -2,11 +2,12 @@ UID Tushar 004589213
 
 
 3.
-Network Backup Dataset
+Run piecewise_workflow.py for piecewise linear regression RMSE
+Network Backup Dataset(Polynomial Regression)
 Run network_cross_valid.py for 10 Fold Cross Validation results
 Run network_fixed.py  for RMSE results on fixed testing and training dataset
 
 4.
-Housing Dataset
+Housing Dataset(Polynomial Regression)
 Run housing_cross_valid.py for 10 Fold Cross Validation results
 Run housing_fixed.py for RMSE results on fixed testing and training dataset
