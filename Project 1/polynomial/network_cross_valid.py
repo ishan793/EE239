@@ -11,7 +11,12 @@ from sklearn.feature_selection import RFE
 np.random.seed(0)
 
 
-#data = pickle.load( open("../data/housing_data.pickle", "rb" ) )
+def get_selected(all_elem, selected):
+    result = []
+    for i in selected:
+        result.append(all_elem[i])
+    return result
+
 data=pickle.load(open("../data/network_data_size.pickle",'rb'))
 X=np.array(data['x'],dtype='float')
 y=np.array(data['y'],dtype='float')
@@ -24,34 +29,40 @@ print y.shape
 a=np.hstack((X[:,31:32],X[:,32:33],X[:,34:36],X[:,51:57]))
 X=a
 
-'''
-#For Housing dataset
-X_train_fixed=X[50:,:]
-y_train_fixed=y[50:,:]
-X_test_fixed=X[0:50,:]
-y_test_fixed=y[0:50,:]
-'''
-#For network dataset
-X_train_fixed=X[1860:,:]
-y_train_fixed=y[1860:,:]
-X_test_fixed=X[0:1860,:]
-y_test_fixed=y[0:1860,:]
 
-degrees = [6]
+degrees = [1,2,3,4,5]
 avg_score=[]
 fixed_score=[]
 rmse=[]
 
 for i in range(len(degrees)):
     poly=PolynomialFeatures(degree=degrees[i])
-    X_train_trans=poly.fit_transform(X_train_fixed)
-    X_test_trans=poly.fit_transform(X_test_fixed)
-    regr=LinearRegression()
-    regr.fit(X_train_trans,y_train_fixed)
-    y_pred=regr.predict(X_test_trans)
-    fixed_score.append((mean_squared_error(y_test_fixed,y_pred)**0.5))
-print fixed_score
-plt.scatter(degrees,fixed_score)
+    X_trans = poly.fit_transform(X)
+    kf=cross_validation.KFold(len(X_trans),10,True)
+
+    for train_index,test_index in kf:
+    	X_train = get_selected(X_trans, train_index)
+        X_test = get_selected(X_trans, test_index)
+        y_train = get_selected(y, train_index)
+        y_test = get_selected(y, test_index)
+
+    	regr =LinearRegression()
+    	regr.fit(X_train,y_train)
+    	y_pred = regr.predict(X_test)    
+    	avg_score.append((mean_squared_error(y_test,y_pred)**0.5))	
+    rmse.append(np.mean(avg_score))
+
+print rmse
+plt.scatter(degrees,rmse)
 plt.xlabel('degrees')
 plt.ylabel('RMSE')
-plt.show()    
+plt.show()
+
+
+
+
+
+
+
+
+

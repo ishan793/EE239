@@ -17,8 +17,7 @@ def get_selected(all_elem, selected):
         result.append(all_elem[i])
     return result
 
-#data = pickle.load( open("../data/housing_data.pickle", "rb" ) )
-data=pickle.load(open("../data/network_data_size.pickle",'rb'))
+data = pickle.load( open("../data/housing_data.pickle", "rb" ) )
 X=np.array(data['x'],dtype='float')
 y=np.array(data['y'],dtype='float')
 print X.shape
@@ -26,12 +25,8 @@ n_samples=X.shape[0]
 y=np.reshape(y,(n_samples,1))
 print y.shape
 
-#a=np.hstack((X[:,31:40],X[:,44:45],X[:,51:57]))
-a=np.hstack((X[:,31:32],X[:,32:33],X[:,34:36],X[:,51:57]))
-X=a
 
-
-degrees = [5]
+degrees = [1,2,3,4,5,6]
 avg_score=[]
 fixed_score=[]
 rmse=[]
