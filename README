@@ -1,1 +1,27 @@
 UID Tushar 004589213
+
+2.
+a) NETWORK BACKUP DATASET
+Run pj1_1_NBD.py
+->Generates actual labels(y),fitted values(yp) and residuals(y-yp). 
+Also includes the plot for residual(y-yp) versus fitted values(yp)
+
+Run pj1_2_NBD.py
+-> Used to generate Plot for Fitted(yp) and Actual value(y) scatter plot over time
+
+3.
+Run piecewise_workflow.py for piecewise linear regression RMSE
+
+Network Backup Dataset(Polynomial Regression)
+Run network_cross_valid.py for 10 Fold Cross Validation results
+Run network_fixed.py  for RMSE results on fixed testing and training dataset
+
+4.
+BOSTON HOUSING DATASET
+Linear Regression model
+Run pj2_BHD.py
+-> THis includes plot for residual(y-yp) versus fitted values(yp)
+
+Housing Dataset(Polynomial Regression)
+Run housing_cross_valid.py for 10 Fold Cross Validation results
+Run housing_fixed.py for RMSE results on fixed testing and training dataset
