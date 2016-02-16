@@ -6,7 +6,7 @@ from sklearn.feature_extraction import text
 stop_words=text.ENGLISH_STOP_WORDS
 stemmer2=SnowballStemmer("english")
 
-categories_ct=['comp.graphics','comp.os.ms-windows.misc','comp.sys.ibm.pc.hardware','comp.sys.mac.hardware']
+categories_ct=['comp.graphics','comp.os.ms-windows.misc','comp.sys.ibm.pc.hardware','comp.sys.mac.hardware','rec.autos','rec.motorcycles','rec.sport.baseball','rec.sport.hockey']
 train_ct=fetch_20newsgroups(subset='train',categories=categories_ct,shuffle=True,random_state=42,remove=('headers','footers','quotes'))
 data_ct=train_ct.data
 clean_data_ct=[]
@@ -29,14 +29,16 @@ vectors = vectorizer.fit_transform(clean_data_ct)
 
 print vectors.shape
 
-
-categories_ra=['rec.autos','rec.motorcycles','rec.sport.baseball','rec.sport.hockey']
+'''
+categories_ra=[]
 train_ra=fetch_20newsgroups(subset='train',categories=categories_ra,shuffle=True,random_state=42,remove=('headers','footers','quotes'))
 data_ra=train_ra.data
 categories_partc=['comp.sys.ibm.pc.hardware','comp.sys.mac.hardware','misc.forsale','soc.religion.christian']
+'''
+
 
 # Counting the number of documents in each class
-all_cats = list(fetch_20newsgroups(subset='train').target_names)
+'''all_cats = list(fetch_20newsgroups(subset='train').target_names)
 final_res = []
 for cat in all_cats:
     train_cat = fetch_20newsgroups(subset='train',categories=[cat],remove=('headers','footers','quotes'))
@@ -45,6 +47,6 @@ for cat in all_cats:
     for doc in data_cat:
         res_cat += ' '+doc
     final_res.append(res_cat)
-      
+'''     
 
 
