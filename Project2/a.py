@@ -5,7 +5,8 @@ from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction import text
 stop_words=text.ENGLISH_STOP_WORDS
 stemmer2=SnowballStemmer("english")
-
+cat_ct=['comp.graphics','comp.os.ms-windows.misc','comp.sys.ibm.pc.hardware','comp.sys.mac.hardware']
+cat_ra=['rec.autos','rec.motorcycles','rec.sport.baseball','rec.sport.hockey']
 categories_ct=['comp.graphics','comp.os.ms-windows.misc','comp.sys.ibm.pc.hardware','comp.sys.mac.hardware','rec.autos','rec.motorcycles','rec.sport.baseball','rec.sport.hockey']
 train_ct=fetch_20newsgroups(subset='train',categories=categories_ct,shuffle=True,random_state=42,remove=('headers','footers','quotes'))
 data_ct=train_ct.data
