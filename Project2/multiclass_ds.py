@@ -1,25 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Feb 15 22:50:10 2016
-
-@author: Tushar Sudhakar Jee
-"""
 import pickle
 import numpy as np
 from sklearn.decomposition import TruncatedSVD
 from sklearn.datasets import fetch_20newsgroups
-import re
-from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem.snowball import SnowballStemmer
-from sklearn.feature_extraction import text
-from sklearn.naive_bayes import MultinomialNB
-from sklearn import linear_model
-from sklearn.naive_bayes import GaussianNB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import precision_score
-from sklearn.metrics import recall_score
 
 stop_words=text.ENGLISH_STOP_WORDS
 stemmer2=SnowballStemmer("english")
@@ -43,10 +28,6 @@ for temp in train_data_raw:
  	temp = " ".join(after_stem)
  	train_data_clean.append(temp)
 
-# TFIDF vector of the clean data(after removing punctuation , stemming and stop_words)
-# vectorizer = TfidfVectorizer()
-# vectors = vectorizer.fit_transform(clean_data_ct1)
-# create bow repr
 
 bow_vec = CountVectorizer(max_df = 0.75)
 tfidf_vec = TfidfTransformer()
@@ -63,14 +44,14 @@ print train_doc.shape
 
 svd = TruncatedSVD(n_components=50, n_iter=10,random_state=42)
 svd.fit(train_doc)
-lsi_train = svd.transform(train_doc)
 
+lsi_train = svd.transform(train_doc)
 print 'Dimensions of training data are:',str(lsi_train.shape)
 labels_train = train_raw_docs.target
 
 #testing dataset
 twenty_test = fetch_20newsgroups(subset='test',
-    categories=cat, shuffle=True, random_state=42, remove=('headers','footers','quotes'))
+    categories = cat, shuffle = True, random_state = 42, remove=('headers','footers','quotes'))
 
 docs_test = twenty_test.data
 clean_test=[]
