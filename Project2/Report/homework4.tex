@@ -1,0 +1,305 @@
+
+% 
+% Originally from Jeff Philips, University of Utah
+%
+\documentclass[11pt]{article}
+
+\usepackage{euscript}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{epsfig}
+\usepackage{xspace}
+\usepackage{color}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{subcaption}
+%\usepackage{floatrow}
+%\usepackage{wrapfig}
+
+
+
+%%%%%%%  For drawing trees  %%%%%%%%%
+%\usepackage{tikz}
+%\usetikzlibrary{calc, shapes, backgrounds}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\textheight}{9in}
+\setlength{\topmargin}{-0.600in}
+\setlength{\headheight}{0.2in}
+\setlength{\headsep}{0.250in}
+\setlength{\footskip}{0.5in}
+\flushbottom
+\setlength{\textwidth}{6.5in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\columnsep}{2pc}
+\setlength{\parindent}{1em}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\eps}{\varepsilon}
+%\newfloatcommand{capbtabbox}{table}[][\FBwidth]
+\renewcommand{\c}[1]{\ensuremath{\EuScript{#1}}}
+\renewcommand{\b}[1]{\ensuremath{\mathbb{#1}}}
+\newcommand{\s}[1]{\textsf{#1}}
+\graphicspath{{plots/}}
+\newcommand{\E}{\textbf{\textsf{E}}}
+\renewcommand{\Pr}{\textbf{\textsf{Pr}}}
+
+\title{Homework 5
+\footnote{\s{COMP SCI 260 - Machine Learning Algorithms ; Fall 2015 }
+}
+}
+\author{Ishan Upadhyaya}
+
+
+\begin{document}
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Bias Variance Tradeoff}
+
+\subsection{Part A}
+
+The closed form solution for the given optimization problem can be written as 
+\begin{equation*}
+	\begin{split}
+		\hat{\beta_{\lambda}} = (X^TX+n\lambda I_p)^{-1}X^{T}\boldsymbol{y} \text{  ; Where $\boldsymbol{y}$ is the output vector}
+	\end{split}
+\end{equation*}
+
+Using the given linear model, $y_i = x_i^T\beta^{\star} + \epsilon$, we can write the above equation as
+\begin{equation*}
+	\begin{split}
+		& \hat{\beta_{\lambda}} = \underbrace{(X^TX+n\lambda I_p)^{-1}X^{T}}_{A_\lambda}(X\beta^{\star}+\mathcal{E}) = A_{\lambda}X\beta^\star + A_\lambda \mathcal{E}\\
+	\end{split}
+\end{equation*}
+\begin{equation*}
+	\begin{split}
+		& \text{Here, $\mathcal{E}$ is a vector given by } \mathcal{E} = 
+		\begin{bmatrix}
+			\epsilon_1 & \epsilon_2 & \cdots & \epsilon_n \\
+		\end{bmatrix}^T \text{ and $\epsilon_i$ is the noise for i$^{th}$ data point}\\
+	\end{split}
+\end{equation*}
+Using properties of affine transformation of Gaussian random vectors, we can say that $\hat{\beta_{\lambda}}$ is a Gaussian random vector with mean and variance given below
+\begin{equation*}
+	\begin{split}
+	      & \mu_{\hat{\beta_{\lambda}}} = A_{\lambda}X\beta^\star \text{ and }C_{\hat{\beta_{\lambda}}} = A_{\lambda}^TC_{\mathcal{E}}A_{\lambda} \\
+	      & \text{Here $C_{\mathcal{E}}$ is the convariance matrix of $\mathcal{E}$}
+	\end{split}
+\end{equation*}
+\subsection{Part B}
+Using linearity property of Expectation, we get that $\mathbb{E}[x^T\hat{\beta_{\lambda}}]$ = $x^T\mathbb{E}[\hat{\beta_{\lambda}}]$. Using the above expression for given probelm we get
+\begin{equation*}
+	\begin{split}
+		\mathbb{E}[x^T\hat{\beta_{\lambda}}] - x^T\beta^\star &= x^T\{\mathbb{E}[\hat{\beta_{\lambda}}] - \beta^\star\} = x^T\{A_{\lambda}X\beta^{\star} - \beta^{\beta^{\star}}\} \\
+		& = x^T\underbrace{\{A_{\lambda}X - I_p\}}_Q\beta^{\star} = b_\lambda
+	\end{split}
+\end{equation*}
+\begin{equation*}
+	\begin{split}
+		Q  & = A_{\lambda}X - I_p = (X^TX +n\lambda I_p)^{-1}X^TX - I_p \\
+		& = (I_p - n\lambda (X^TX)^{-1})^{-1} - I_p = I_p - n\lambda(X^TX + n\lambda I_p)^{-1} - I_p \\
+		& = - n\lambda(X^TX + n\lambda I_p)^{-1}
+	\end{split}
+\end{equation*}
+\subsection{Part C}
+The expression $\mathbb{E}[\{x^T\hat{\beta_\lambda} - \mathbb{E}[x^T\hat{\beta_\lambda}]\}^2]$ can be written as  $\underbrace{\mathbb{E}[\{x^T\{\hat{\beta_\lambda} - \mathbb{E}[\hat{\beta_\lambda}]\}\}^2]}_P$. Simplyfying P further we get
+\begin{equation*}
+	\begin{split}
+		P & = \mathbb{E}[\{x^T(A_\lambda X\beta^\star + A_\lambda\mathcal{E} - A_\lambda X\beta^\star)\}^2] \\
+		& =  \mathbb{E}[\{x^TA_\lambda\mathcal{E}\}^2] = \mathbb{E}[x^TA_\lambda\mathcal{E}\mathcal{E}^TA_\lambda^Tx] = x^TA_\lambda \mathbb{E}[\mathcal{E}\mathcal{E}^T]A_\lambda^Tx  = x^TA_\lambda C_{\mathcal{E}}A_\lambda^Tx\\
+	\end{split}
+\end{equation*}
+\subsection{Part D}
+Consider behavior of P and $A_\lambda$ as $\lambda \rightarrow 0$ and $\lambda \rightarrow \infty$.
+\begin{equation*}
+	\begin{split}
+		& \lim\limits_{\lambda \rightarrow 0} P = 0 \text{ and }  \lim\limits_{\lambda \rightarrow \infty} P = -nI_p \\
+		& \lim\limits_{\lambda \rightarrow 0} A_\lambda = X^{-1} \text{ and }  \lim\limits_{\lambda \rightarrow \infty} A_\lambda = \frac{1}{n\lambda}X^T = \boldsymbol{0}_{pxn} \\		
+	\end{split}
+\end{equation*}
+
+Therefore we get 
+\begin{equation*}
+	\begin{split}	
+		& \lim\limits_{\lambda \rightarrow 0} b_\lambda = 0 \text{ and }  \lim\limits_{\lambda \rightarrow \infty} b_\lambda = -x^TnI_p\beta^\star = -nx^T\beta^\star \\
+		& \lim\limits_{\lambda \rightarrow 0} P = x^TX^{-1} C_{\mathcal{E}}(X^{-1})^Tx \text{ and }  \lim\limits_{\lambda \rightarrow \infty} P = 0
+	\end{split}
+\end{equation*}
+In words, the bias becomes zeros as $\lambda$ = 0 while the variance term goes to zero as $\lambda \rightarrow \infty$
+\section{Kernilized Perceptron}
+\subsection{Part A}
+We show that $\boldsymbol{w}$ is a linear weighted sum of feature vectors using an argument similar to that of Induction.
+We know that $\boldsymbol{w}$ is intialized as 0, thus the first time that $\boldsymbol{w}$ is updated, we have $\boldsymbol{w} = y_k\varphi(x_k)$, where 'k' is the first sample for which $\boldsymbol{w}$ misclassifies. Consequently, we can write this $\boldsymbol{w}$ as $\sum_{i=1}^{n}\alpha_i\varphi(x_i)$, where $\alpha_i$ = 0 $\forall i \not= k$ and $\alpha_k = y_k$. Now, suppose the immediately subsequent update to $\boldsymbol{w}$ occurs for $j^{th}$ sample point, then we write $\boldsymbol{w}$ = $\sum_{i=1}^{n}\alpha_i\varphi(x_i) + y_j\varphi(x_j) = \sum_{i=1}^{n}\hat{\alpha_i}\varphi(x_i)$ such that $\hat{\alpha_i} = \alpha_i \forall i \not= j$ and $\hat{\alpha_i} = \alpha_i + y_i \text{ for } i=k$. Thus we have shown that $\boldsymbol{w}$ is a linear sum of weighted feature vectors after two updates. Thus we claim, that it is a weighted sum after 'm' updates. Now consider the (m+1)$^{th}$ update at say $p^{th}$ data point. Using, the same logic as above, we can write $\boldsymbol{w} = \sum_{i=1}^{n}\alpha_i\varphi(x_i) + y_p\varphi(x_p) = \sum_{i=1}^{n}\hat{\alpha_i}\varphi(x_i)$ such that $\hat{\alpha_i} = \alpha_i \forall i \not= p$ and $\hat{\alpha_i} = \alpha_i + y_i \text{ for } i=p$. Hence, we have proved that if the weight vector is initialized as a zero vector, the we can write it as a linear weighted sum of feature vectors, i.e. $\boldsymbol{w} = \sum_{i=1}^{n}\alpha_i\varphi(x_i)$.
+
+\newpage
+\subsection{Part B}
+The prediction of perceptron is given by $\hat{y_k}$ = sign$(\boldsymbol{w}^T\varphi(x_k))$. Expanding this equation further we get,
+
+\begin{equation*}
+	\begin{split}
+		\hat{y_k} & = sign(\boldsymbol{w}^T\varphi(x_k))\\
+				  & = \text{sign}\{(\sum_{i=1}^{n}\alpha_i\varphi(x_i))^T\varphi(x_k)\} = \text{sign}\{\sum_{i=1}^{n}\alpha_i\underbrace{\varphi(x_i)^T\varphi(x_k)}_{k(x_i,x_k)}\} \\
+				  & = \text{sign}\sum_{i=1}^{n}\alpha_ik(x_i,x_k)
+	\end{split}
+\end{equation*}
+Hence, the prediction rule for perceptron can be written in terms of a kernel function.
+\subsection{Part C}
+From part A we know that $\boldsymbol{w} = \sum_{i=1}^{n}\alpha_i\varphi(x_i)$. During the training phase, for any update we have $\boldsymbol{w} \leftarrow \boldsymbol{w}+y_k\varphi(x_k) = \sum_{i=1}^{n}\alpha_i\varphi(x_i) + y_k\varphi(x_k)$. This equation can be modified as $\alpha_k \leftarrow \alpha_k + y_k$ to bring about the same change in the weight vector. Also notice that the prediction of a new data point $\varphi(x_k)$ is given by sign $\sum_{i=1}^{n}\alpha_ik(x_i,x_k)$, which is independent of the explicit form of weight vecotr $\boldsymbol{w}$. Thus, during the training time, we only need access to $\alpha_i$'s and $x_i$'s to update the weight vector.
+
+During testing time, we are just predicting the label of a data point $x_k$ using the sign $\sum_{i=1}^{n}\alpha_ik(x_i,x_k)$, which just requires access to $x_i$'s and $\alpha_i$'s to make prediction. Thus proving that we don't need access to explicit form of $\boldsymbol{w}$ during testing time as well.
+
+The algorithm for kernilized matrix is given as follows.
+\begin{enumerate}
+	\item Initialize $\alpha_i$ = 0 $\forall i$.
+	\item Set counter k=0
+	\item For current data point 'k', predict label $\hat{y_k}$ = sign$\sum_{i=1}^{n}\alpha_ik(x_i,x_k)$
+	\item If $\hat{y_k} \not= y_k$ update $\alpha_k$ as $\alpha_k \leftarrow \alpha_k + y_k$
+	\item k $\leftarrow$ k+1
+	\item Iterate till convergence of $\boldsymbol{w}$
+\end{enumerate}
+\section{Kernels}
+Let $\boldsymbol{v} \in \mathbb{R}^n$ 
+\subsection{Part A}
+For matrix K$_3$ = a$_1$K$_1$ + a$_2$K$_2$, the term $\boldsymbol{v}^TK_3\boldsymbol{v}$ is given by
+\begin{equation*}
+	\begin{split}
+		& \boldsymbol{v}^TK_3\boldsymbol{v} = a_1\boldsymbol{v}^TK_1\boldsymbol{v} + a_2\boldsymbol{v}^TK_2\boldsymbol{v} \geq 0 \\
+		& \because a_1,a_2 \geq 0 \text{ and } \boldsymbol{v}^TK_1\boldsymbol{v},\boldsymbol{v}^TK_2\boldsymbol{v} \geq 0 \text{ As k$_1$ and k$_2$ are positive semi definite }
+	\end{split}
+\end{equation*}
+$\therefore$ K$_3$ is positive semidefinite
+\subsection{Part B}
+The matrix generated by the function k$_4$($x_1,x_2$) is shown below
+\begin{equation*}
+	\begin{split}
+		K_4 &= 
+		\begin{bmatrix}
+			f(x_1)f(x_1) & f(x_1)f(x_2) & \cdots & f(x_1)f(x_n) \\
+			f(x_2)f(x_1) & f(x_2)f(x_2) & \cdots & f(x_2)f(x_n) \\
+			\vdots & \vdots & \ddots & \vdots \\
+			f(x_n)f(x_1) & f(x_n)f(x_2) & \cdots & f(x_n)f(x_n) \\
+		\end{bmatrix}
+		= 
+		\begin{bmatrix}
+		f(x_1) & (x_2) & \cdots & f(x_n) \\
+		\end{bmatrix}
+		\begin{bmatrix}
+		f(x_1)\\
+		f(x_2) \\
+		\vdots\\
+		f(x_n)\\
+		\end{bmatrix}
+		\\
+		& = \boldsymbol{f}\boldsymbol{f}^T
+	\end{split}
+\end{equation*}
+Therefore, $\boldsymbol{v}^Tk_4\boldsymbol{v}$ is given by
+\begin{equation*}
+	\begin{split}
+		\boldsymbol{v}^Tk_4\boldsymbol{v} = \boldsymbol{v}^T\boldsymbol{f}\boldsymbol{f}^T\boldsymbol{v} = \{\boldsymbol{f}^T\boldsymbol{v}\}^2 \geq 0
+	\end{split}
+\end{equation*}
+Therefore, $K_4$ is positive semi definite. 
+\subsection{Part C}
+Given that k$_5$ = k$_1(x_1,x_2$)k$_2(x_1,x_2$), where $k_1$ and $k_2$ are kernel functions, we can alternatively express k$_1$ and k$_2$ as 
+\begin{equation*}
+	\begin{split}
+		& k_1(x_1,x_2) = \varphi_1(x_1)^T\varphi_1(x_2) = \sum_{i=1}^{n}\varphi_1(x_1)_i*\varphi_1(x_2)_i \\
+		& k_2(x_1,x_2) = \varphi_2(x_1)^T\varphi_2(x_2) = \sum_{i=1}^{m}\varphi_2(x_1)_i*\varphi_2(x_2)_i
+	\end{split}
+\end{equation*}
+Using the above equations we can write k$_5$ as
+\begin{equation*}
+	\begin{split}
+		k_5(x_1,x_2) & = (\sum_{i=1}^{n}\varphi_1(x_1)_i*\varphi_1(x_2)_i)(\sum_{j=1}^{m}\varphi_2(x_1)_j*\varphi_2(x_2)_j) \\
+		& = \sum_{i=1}^{n}\sum_{j=1}^{m} = (\varphi_1(x_1)_i\varphi_2(x_1)_j)*(\varphi_1(x_2)_i\varphi_2(x_2)_j) \\
+		& = \sum_{i=1}^{n}\sum_{j=1}^{m}\varphi_3(x_1)_{i,j}*\varphi_3(x_2)_{i,j} \\
+		& = \varphi_3(x_1)^T\varphi_3(x_2)\text{ ; here $\varphi_3(.)$ is a (nm)x1 dimensional vector} \\
+	\end{split}
+\end{equation*}
+Thus we can write $k_5(\cdot,\cdot)$ as an innerproduct of two vectors i.e. $k_5(x_1,x_2) = \varphi_3(x_1)^T\varphi_3(x_2)$.
+Now consider $\boldsymbol{v}^TK_5\boldsymbol{v}$ 
+\begin{equation*}
+	\begin{split}
+		\boldsymbol{v}^TK_5\boldsymbol{v} &= \sum_{i,j}\boldsymbol{v}_i<\varphi_3(x_i),\varphi_3(x_j)>\boldsymbol{v}_j \\
+		&= <\sum_i\boldsymbol{v}_i\varphi_3(x_i),\sum_j\varphi_3(x_j)\boldsymbol{v}_j> = ||\sum_j\varphi_3(x_j)\boldsymbol{v}_j||_2^2 \\> > 0
+	\end{split}
+\end{equation*}
+Hence, K$_5$ is positive semidefinite.
+\section{Soft Margin Hyperplanes}
+\subsection{Part A}
+Lagrangian of the modified optimization problem is given by
+\begin{equation*}
+	\begin{split}
+		& \mathcal{L}_p = C\sum_n\xi_n + \frac{1}{2}\boldsymbol{w}^T\boldsymbol{w} - \sum_n\lambda_n\xi_n + \sum_n\alpha_n[1-y_n(\boldsymbol{w}^T\phi(x_n)+b)-\xi_n] \\
+		& \frac{\partial \mathcal{L}_p}{\partial \xi_n} = pC\xi_n^{p-1} - \lambda_n - \alpha_n = 0 \\
+		& \frac{\partial \mathcal{L}_p}{\partial \boldsymbol{w}} = \boldsymbol{w} - \sum_ny_n\alpha_n\phi(x_n) = 0 \\
+		& \frac{\partial \mathcal{L}_p}{\partial b} = \sum_n\alpha_ny_n = 0
+	\end{split}
+\end{equation*}
+Substituting the conditions back into lagrangian we get
+\begin{equation*}
+		\begin{split}
+			\mathcal{G}_p = \sum_n\{C\xi_n^{p-1} - \lambda_n - \alpha_n\}\xi_n + & \frac{1}{2}||\sum_ny_n\alpha_n\phi(x_n)||_2^2 + \sum_n\alpha_n \\
+			& -\sum_ny_n\alpha_nb - \sum_ny_n\alpha_n(\sum_my_m\alpha_m\phi(x_m))^T\phi(x_n)
+		\end{split}
+\end{equation*}
+\begin{equation*}
+	\begin{split}
+		\mathcal{G}_p & = \sum_n(1-p)C\xi_n^p + \sum_n\alpha_n - \frac{1}{2} \sum_{n,m}y_my_n\alpha_n\alpha_m\phi(x_n)^T\phi(x_m) \\
+		& = \underbrace{\frac{1-p}{C^{\frac{1}{p-1}}}\sum_n(\frac{\lambda_n + \alpha_n}{p})^{\frac{p}{p-1}}}_{S_p} + \sum_n\alpha_n	- \frac{1}{2} \sum_{n,m}y_my_n\alpha_n\alpha_m\phi(x_n)^T\phi(x_m) \\ 	
+	\end{split}
+\end{equation*}
+Hence, the dual formation of the problem is given as 
+\begin{equation*}
+	\begin{split}
+		\boldsymbol{\alpha} &= \text{max}_{\alpha}\text{  }\mathcal{G}_p \\
+		&\alpha_n,\lambda_n \geq 0 \\
+		& \sum_n y_n \alpha_n = 0 \\
+	\end{split}
+\end{equation*}
+\subsection{Part B}
+The general formulation is more complex than the one discussed in class  because of the additional $S_p$ term. Also, the number of variables involved is double than that of the simpler formulation, as we have the additional $\lambda_n$ terms. 
+\section{Programming}
+\subsection{Data Preprocessing}
+Mean and standard deviation before pre-processing
+\begin{enumerate}
+	\item 3$^{rd}$ feature: Mean = 2.5260, Standard Deviation = 1.0856
+	\item 10$^{th}$ feature: Mean = 2.5526, Standard Deviation = 1.1222
+\end{enumerate}
+Mean and standard deviation after pre-processing
+\begin{enumerate}
+	\item 3$^{rd}$ feature: Mean = -0.013, Standard Deviation = 1.0099
+	\item 10$^{th}$ feature: Mean = 0.0228, Standard Deviation = 0.9979
+\end{enumerate}
+\subsection{Cross validation for Linear SVM}
+\subsubsection{A}
+Variation of Cross validation accuracy and training time are shown below.
+After a certain value of C, accuracy flattens out as can be observed in the graph, while the training time generally increases with value of C.
+\subsubsection{B}
+As it can be observed from the graphs, maximum cross-validation accuracy is obtained at C = 4$^{-3}$ with an accuracy of 80.9\%
+\subsubsection{C}
+Test accuracy if the model is trained using C = 4$^{-3}$ is 84.64\%.
+\subsection{Linear SVM using LibSVM}
+Plots for variation of cross-validation accuracy and training time with C are shown below
+
+As can be observed, the accuracy plot is similar to the one we obtained using quadprog, while the time plot follows a similar trend of increasing training time with value of C. In general, training time of LibSVM is slightly more than the one observed from our implementation.
+
+The maximum cross-validation accuracy acheived was 80.4\% with value of C as 4$^{-5}$. This value is slightly different from the one obtained using our implementaion. This might due to differing optimization algorithm used by quadprog and LibSVM or because of different forms(primal and dual) being optimized by them or a combination of the above two reasons.
+\newpage
+\subsection{SVM using Kernels}
+Cross validation and training times for Polynomial kernel function are shown below for different degrees. Please note that the X-axis is in log scale.
+
+Cross validation and training times for RBF kernel function are shown below for different values of gamma. Please note that the X-axis is in log scale.
+
+As can be observed, the maximum cross-validation accuracy is obtained with RBF kernel, with C = 4 and gamma = 4$^{-3}$. The corresponding accuracy = 88\%.
+
+The test accuracy for these parameters is 90.4368\%.
+\end{document}
