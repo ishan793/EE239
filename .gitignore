@@ -44,3 +44,10 @@ Thumbs.db
 *~
 .~*
 *.csv#
+
+# latex aux files #
+######################
+report/*.pdf
+*.aux
+*.log
+*.synctex.gz

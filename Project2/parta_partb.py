@@ -53,7 +53,7 @@ ax.set_xticks(pos + (width))
 plt.xlabel('classes')
 plt.ylabel('Number of documents')
 plt.bar(pos, frequencies, width, color='r')
-plt.show()
+plt.savefig('histogram.png')
 
 
 print 'final number of terms extracted are ',vectors.shape[1]   

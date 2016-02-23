@@ -56,85 +56,83 @@
 \footnote{\s{EE 239AS ; Winter 2016 }
 }
 }
-
+\author{Tushar Sudhakar Jee, Shubham Agarwal, Pulkit Aggarwal, Ishan Upadhyaya
+	}
 
 
 \begin{document}
 \maketitle
 
-Tushar Sudhakar Jee (004589213)
-
-Shubham Agarwal (204587029)
-
-Pulkit Aggarwal(804587205)
-
-Ishan Upadhyaya(204617837)
 
 \section{Dataset and Problem Statement}
 \subsection{Part A}
-Number of documents in Recreational Activity are 2389\\
-Number of documents in Computer Technology are 2343\\
+Number of documents in Recreational Activity are 2389 and number of documents in Computer Technology are 2343\\
 
-\begin{figure}[H]
-	
-	\includegraphics[scale =0.7]{histogram.png}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale = 0.5]{histogram.png}
 	\caption{Histogram for the number of documents}
 \end{figure}
 
-
+\newpage
 \section{Modeling Text Data and Feature Extraction}
 \subsection{Part B}
 Final number of terms extracted are 34792.
+
 \subsection{Part C}
-
 Ten Most significant features with TFICF 
-scores:\\
-\\
-%\begin{table}[h]
-%	\centering
-%	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|} \hline
-%		Word & Accuracy & Precision & Recall\\ \hline
-%		Gaussian Naive Bayes & 63.32 & 64.50 & 63.32 \\
-%		Linear SVM & 81.40 & 81.50 & 81.40 \\
-%		\hline
-%	\end{tabular}
-%	\caption{One vs Rest}
-%	\label{table:ovr_res}
-%\end{table}
-
-
-\begin{figure}[H]
-	
-	\includegraphics[width=\textwidth]{Table2.png}
-	\caption{10 most significant words for the given classes.}
-\end{figure}
+scores are shown in Table \ref{table:si_wo} \\
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|} \hline
+		Index & comp.sys.ibm.pc.hardware & comp.sys.max.hardware & misc.forsale & soc.religion.christian\\ \hline
+		1 & scsi & mac & dos & god \\
+		2 & drive & use & new & christian\\ 
+		3 & use & scsi & sale & jesus \\
+		4 & mb & appl & offer & church \\
+		5 & ide & drive & use & christ \\
+		6 & card & mb & includ & peopl \\
+		7 & disk & simm & ship & say \\
+		8 & control & problem & price & bibl \\
+		9 & dos & quadra & wolverin & believ \\
+		10 & jumper & nubus & sell & think \\
+		\hline
+	\end{tabular}
+	\caption{Ten most significant words.}
+	\label{table:si_wo}
+\end{table}
 
 \section{Feature Selection}
 \subsection{Part D}
-On applying LSI to the TFIDF matrix with k=50, each document was mapped to a 50 dimensional vector. 
+On applying LSI to the TFIDF matrix with k = 50, each document was mapped to a 50 dimensional vector. 
 
+\newpage
 \section{Learning Algorithms}
+
 \subsection{Part E: Linear SVM}
+The ROC curve for Linear SVM is shown below.
 
 \begin{figure}[H]
-	
-		\includegraphics[width=\textwidth]{ROC_SVM.png}
+	\centering
+	\includegraphics[scale = 0.6]{ROC_SVM.png}
 	\caption{ROC curve for linear SVM}
 \end{figure}
 
-\begin{table}[h]
+The confusion matrix for Linear SVM is shown below.
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|c|} \hline
-		& Accuracy 		Predicted Computer Technology & Predicted Recreation Activity \\ \hline
+		& Predicted Computer Technology & Predicted Recreation Activity \\ \hline
 		Actual Computer Technology & 1581 & 9 \\
 		Actual Recreation Activity & 236& 1324  \\
 		\hline
 	\end{tabular}
 	\caption{Confusion Matrix: Linear SVM}
-	\label{table:ovr_res}
 \end{table}
 
-\begin{table}[h]
+
+Accuracy, Precision and Recall for Linear SVM are shown below
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|c|} \hline
 		Learning Algorithm & Accuracy & Precision & Recall\\ \hline
@@ -142,63 +140,72 @@ On applying LSI to the TFIDF matrix with k=50, each document was mapped to a 50 
 		\hline
 	\end{tabular}
 	\caption{Liner SVM}
-	\label{table:ovr_res}
 \end{table}
 
 
-
+\newpage
 \subsection{Part F: Soft Margin SVM}
 
+The ROC curve for Soft Margin SVM is shown below.
+
 \begin{figure}[H]
-	
-	\includegraphics[width=\textwidth]{ROC_SMSVM.png}
-	\caption{ROC curve for soft margin SVM}
+	\centering
+	\includegraphics[scale = 0.6]{ROC_SMSVM.png}
+	\caption{ROC curve for Soft Margin SVM}
 \end{figure}
 
-\begin{table}[h]
+The confusion matrix for Soft Margin SVM is shown below.
+
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|c|} \hline
-		& Accuracy 		Predicted Computer Technology & Predicted Recreation Activity \\ \hline
+		& Predicted Computer Technology & Predicted Recreation Activity \\ \hline
 		Actual Computer Technology & 1573 & 17 \\
 		Actual Recreation Activity & 148& 1412  \\
 		\hline
 	\end{tabular}
-	\caption{Confusion Matrix: soft margin SVM}
-	\label{table:ovr_res}
+	\caption{Confusion Matrix: Soft Margin SVM}
 \end{table}
 
-\begin{table}[h]
+Accuracy, Precision and Recall for Soft Margin SVM are shown below
+
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|c|} \hline
 		Learning Algorithm & Accuracy & Precision & Recall\\ \hline
 		Soft margin SVM & 94.76 & 98.81 & 90.51 \\
 		\hline
 	\end{tabular}
-	\caption{soft margin SVM}
-	\label{table:ovr_res}
+	\caption{Soft Margin SVM}
 \end{table}
 
+\newpage
 \subsection{Part G Naive Bayes}
 
+The ROC curve for Naive Bayes is shown below.
+
 \begin{figure}[H]
-	
-	\includegraphics[width=\textwidth]{ROC_NaiveBayes.png}
+	\centering
+	\includegraphics[scale = 0.6]{ROC_NaiveBayes.png}
 	\caption{ROC curve for Naive Bayes}
 \end{figure}
 
-\begin{table}[h]
+The confusion matrix for Naive Bayes is shown below.
+
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|c|} \hline
-		& Accuracy 		Predicted Computer Technology & Predicted Recreation Activity \\ \hline
+		& Predicted Computer Technology & Predicted Recreation Activity \\ \hline
 		Actual Computer Technology & 1544 & 46 \\
 		Actual Recreation Activity & 685& 875  \\
 		\hline
 	\end{tabular}
 	\caption{Confusion Matrix: Naive Bayes}
-	\label{table:ovr_res}
 \end{table}
 
-\begin{table}[h]
+Accuracy, Precision and Recall for Naive Bayes are shown below
+
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|c|} \hline
 		Learning Algorithm & Accuracy & Precision & Recall\\ \hline
@@ -206,18 +213,22 @@ On applying LSI to the TFIDF matrix with k=50, each document was mapped to a 50 
 		\hline
 	\end{tabular}
 	\caption{Naive Bayes}
-	\label{table:ovr_res}
 \end{table}
 
+\newpage
 \subsection{Part H Logistic Regression}
 
+ROC curve for Logistic Regression is shown below
+
 \begin{figure}[H]
-	
-	\includegraphics[width=\textwidth]{ROC_LogisticRegression.png}
+	\centering
+	\includegraphics[scale = 0.6]{ROC_LogisticRegression.png}
 	\caption{ROC curve for Logistic Regression}
 \end{figure}
 
-\begin{table}[h]
+The confusion matrix for Logistic Regression is shown below.
+
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|c|} \hline
 		& Accuracy 		Predicted Computer Technology & Predicted Recreation Activity \\ \hline
@@ -226,10 +237,11 @@ On applying LSI to the TFIDF matrix with k=50, each document was mapped to a 50 
 		\hline
 	\end{tabular}
 	\caption{Confusion Matrix: Logistic Regression}
-	\label{table:ovr_res}
 \end{table}
 
-\begin{table}[h]
+Accuracy, Precision and Recall for Logistic Regression are shown below
+
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|c|} \hline
 		Learning Algorithm & Accuracy & Precision & Recall\\ \hline
@@ -237,11 +249,10 @@ On applying LSI to the TFIDF matrix with k=50, each document was mapped to a 50 
 		\hline
 	\end{tabular}
 	\caption{Logistic Regression}
-	\label{table:ovr_res}
 \end{table}
 
 
-
+\newpage
 \section{Multi-class Classification}
 \subsection{Part I}
 
@@ -271,10 +282,9 @@ The results for Multi-class classification are shown in the tables below. Table 
 	\label{table:ovo_res}
 \end{table}
 
-\newpage
 The confusion matrix for One vs One methods are shown below in figure \ref{fig:cm_ovo} and Confusion matrix for One vs Rest methods are in figure \ref{fig:cm_ovr}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	
 	\begin{subfigure}[b]{0.5\textwidth}
 		\includegraphics[width=\textwidth]{ovo_gnb.png}
@@ -289,7 +299,7 @@ The confusion matrix for One vs One methods are shown below in figure \ref{fig:c
 	\label{fig:cm_ovo}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	
 	\begin{subfigure}[b]{0.5\textwidth}
 		\includegraphics[width=\textwidth]{ovr_gnb.png}

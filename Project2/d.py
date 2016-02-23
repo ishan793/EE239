@@ -65,12 +65,6 @@ vectors_new=svd.transform(train_doc)
 print vectors_new.shape
 print type(vectors_new)
 
-'''#cat=['comp.graphics','comp.os.ms-windows.misc','comp.sys.ibm.pc.hardware','comp.sys.mac.hardware']
-cat=['rec.autos','rec.motorcycles','rec.sport.baseball','rec.sport.hockey']
-train_cat=fetch_20newsgroups(subset='test',categories=cat,shuffle=True,random_state=42,remove=('headers','footers','quotes'))
-data_cat=train_cat.data
-print len(data_cat),"number of computer class documents"
-'''
 temp = train_ct1.target
 label = []
 for i in temp: 
@@ -80,16 +74,6 @@ for i in temp:
 with gzip.open('train_data.pkl.gz','wb') as f:
   cPickle.dump((vectors_new,label),f)
 f.close()    
-
-
-# label0=[0]*2343
-# label1=[1]*2389
-# label=label0+label1
-
-#clf = MultinomialNB().fit(vectors_new, label)
-
-clf = GaussianNB()
-clf.fit(vectors_new,label)
 
 #testing dataset
 twenty_test = fetch_20newsgroups(subset='test',
@@ -116,9 +100,7 @@ test_doc = tfidf_vec.transform(test_doc)
 print test_doc.shape
 
 
-#svd.fit(vectors_test)
-vectors_test_new=svd.transform(test_doc)
-predicted = clf.predict(vectors_test_new)
+vectors_test_new = svd.transform(test_doc)
 
 y_test_lab = twenty_test.target
 label_test = []
@@ -128,9 +110,3 @@ for i in y_test_lab:
 with gzip.open('test_data.pkl.gz','wb') as f:
   cPickle.dump((vectors_test_new,label_test),f)
 f.close()    
-
-
-print np.mean(predicted == label_test) 
-print confusion_matrix(label_test, predicted)
-print precision_score(label_test, predicted)
-print recall_score(label_test, predicted)
