@@ -10,15 +10,15 @@ for i=1:100000
 end
 
 
-[A,Y,numIter,tElapsed,finalResidual] = wnmfrule(M,10);
+[A1,Y1,numIter,tElapsed,finalResidual] = wnmfrule(M,10);
 k=10
 finalResidual
 
-[A,Y,numIter,tElapsed,finalResidual] = wnmfrule(M,50);
+[A1,Y1,numIter,tElapsed,finalResidual] = wnmfrule(M,50);
 k=50
 finalResidual
 
-[A,Y,numIter,tElapsed,finalResidual] = wnmfrule(M,100);
+[A1,Y1,numIter,tElapsed,finalResidual] = wnmfrule(M,100);
 k=100
 finalResidual
 
