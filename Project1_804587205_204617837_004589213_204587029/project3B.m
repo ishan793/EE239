@@ -1,3 +1,5 @@
+% download https://sites.google.com/site/nmftool/home/source-code
+
 clear
 clc
 A = importdata('E:\UCLA\Quarter2\BigData\Project3\ml-100k\ml-100k\u.data');
@@ -7,7 +9,19 @@ for i=1:100000
     M(A(i,1),A(i,2))= A(i,3);
 end
 
+
 [A,Y,numIter,tElapsed,finalResidual] = wnmfrule(M,10);
+k=10
+finalResidual
+
+[A,Y,numIter,tElapsed,finalResidual] = wnmfrule(M,50);
+k=50
+finalResidual
+
+[A,Y,numIter,tElapsed,finalResidual] = wnmfrule(M,100);
+k=100
+finalResidual
+
 
 % code for part B
 k = length(A)/10;
